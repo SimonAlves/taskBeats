@@ -1,4 +1,4 @@
-package com.example.taskbeats
+package com.example.taskbeats.data
 
 import androidx.room.Database
 import androidx.room.RoomDatabase

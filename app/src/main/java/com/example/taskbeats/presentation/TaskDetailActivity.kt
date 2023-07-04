@@ -1,4 +1,4 @@
-package com.example.taskbeats
+package com.example.taskbeats.presentation
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
@@ -10,6 +10,8 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
+import com.example.taskbeats.R
+import com.example.taskbeats.data.Task
 import com.google.android.material.snackbar.Snackbar
 
 class TaskDetailActivity : AppCompatActivity() {
@@ -97,7 +99,7 @@ class TaskDetailActivity : AppCompatActivity() {
           }
 
     }
-    private fun returnAction (task:Task,actionType:ActionType) {
+    private fun returnAction (task: Task, actionType: ActionType) {
 
         val intent = Intent()
             .apply {

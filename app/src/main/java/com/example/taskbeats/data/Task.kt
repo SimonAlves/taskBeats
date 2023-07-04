@@ -1,4 +1,4 @@
-package com.example.taskbeats
+package com.example.taskbeats.data
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
