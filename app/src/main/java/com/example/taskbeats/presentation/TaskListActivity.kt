@@ -1,7 +1,9 @@
 package com.example.taskbeats.presentation
 
 import android.app.Activity
+import android.nfc.Tag
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
@@ -12,15 +14,18 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import androidx.room.Room
+import androidx.room.RoomDatabase
 import com.example.taskbeats.R
 import com.example.taskbeats.data.AppDataBase
 import com.example.taskbeats.data.Task
+import com.example.taskbeats.taskbeatsApplication
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.launch
 import java.io.Serializable
+import kotlin.math.log
 
 class MainActivity : AppCompatActivity() {
 
@@ -32,15 +37,14 @@ class MainActivity : AppCompatActivity() {
         TaskListAdapter(::onListItemClicked)
     }
 
-    private val database by lazy {
-        Room.databaseBuilder(
-            applicationContext,
-            AppDataBase::class.java, "taskbeats-database"
-        ).build()
+    private val viewModel:TaskListViewModel by lazy {
+        TaskListViewModel.create(application)
     }
+    lateinit var database : AppDataBase
     private val dao by lazy {
         database.taskDao()
     }
+
 
     // Registro da atividade para obter resultados
     private val startForResult = registerForActivityResult(
@@ -65,8 +69,6 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_taks_list)
         setSupportActionBar(findViewById(R.id.toolbar))
 
-        ListFromDataBase()
-
         ctnContent = findViewById(R.id.ctn_content)
 
         //Recycler view
@@ -78,6 +80,14 @@ class MainActivity : AppCompatActivity() {
             openTaskListDetail(null)
 
         }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        database = (application as taskbeatsApplication).getAppDataBase()
+        Log.d("SimonTeste",database.toString())
+
+        ListFromDataBase()
     }
 
     private fun insertIntoDataBase(task: Task) {
