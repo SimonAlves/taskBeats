@@ -1,5 +1,6 @@
 package com.example.taskbeats.data
 
+import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
@@ -13,7 +14,7 @@ interface TaskDao {
     fun insert(task: Task)
 
     @Query("Select * from task")
-    fun getAll():List<Task>
+    fun getAll():LiveData<List<Task>>
 
     //uPdate  encontrar a tarefa que queremos alterar.
 
